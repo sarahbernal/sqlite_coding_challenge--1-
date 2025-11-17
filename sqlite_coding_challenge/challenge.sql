@@ -1,10 +1,15 @@
+-- Tool Used: VS Code with SQLTools
+
 -- Task 1
 SELECT
   c.first_name || ' ' || c.last_name AS customer,
   ROUND(SUM(oi.quantity * oi.unit_price), 2)      AS total_spend
 FROM orders o
 JOIN customers c   ON c.id = o.customer_id
-JOIN order_items oi ON oi.order_id = o.id;
+JOIN order_items oi ON oi.order_id = o.id
+GROUP BY c.id
+ORDER BY total_spend DESC
+LIMIT 5;
 
 --Task 2
 SELECT
@@ -12,7 +17,9 @@ SELECT
   ROUND(SUM(oi.quantity * oi.unit_price), 2) AS revenue
 FROM order_items oi
 JOIN products p ON p.id = oi.product_id
-JOIN orders   o ON o.id = oi.order_id;
+JOIN orders   o ON o.id = oi.order_id
+GROUP BY p.category
+ORDER BY revenue DESC;
 
 --Task 3 
 WITH dept_avg AS (
